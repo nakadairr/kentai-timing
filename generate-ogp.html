@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta charset="UTF-8"><title>OGP Generator</title></head>
+<body>
+<canvas id="c" width="1200" height="630"></canvas>
+<script>
+const c = document.getElementById('c');
+const ctx = c.getContext('2d');
+const W = 1200, H = 630;
+
+const bg = ctx.createLinearGradient(0, 0, W, H);
+bg.addColorStop(0, '#fde8ef');
+bg.addColorStop(1, '#f0ebf9');
+ctx.fillStyle = bg;
+ctx.fillRect(0, 0, W, H);
+
+const bar = ctx.createLinearGradient(0, 0, W, 0);
+bar.addColorStop(0, '#e88fa8');
+bar.addColorStop(1, '#9b7ec8');
+ctx.fillStyle = bar;
+ctx.fillRect(0, 0, W, 14);
+
+ctx.globalAlpha = 0.08;
+ctx.fillStyle = '#9b7ec8';
+ctx.beginPath(); ctx.arc(1060, 130, 190, 0, Math.PI*2); ctx.fill();
+ctx.beginPath(); ctx.arc(140, 510, 150, 0, Math.PI*2); ctx.fill();
+ctx.globalAlpha = 1;
+
+ctx.font = '110px serif';
+ctx.textAlign = 'center';
+ctx.fillText('🔬', 600, 205);
+
+ctx.fillStyle = '#3d2b3d';
+ctx.font = 'bold 64px "Hiragino Kaku Gothic ProN", sans-serif';
+ctx.fillText('妊娠検査薬タイミング判定', 600, 320);
+
+ctx.fillStyle = '#9b7ec8';
+ctx.font = 'bold 32px "Hiragino Kaku Gothic ProN", sans-serif';
+ctx.fillText('フライング検査はいつからOK？確実な判定日を自動計算', 600, 385);
+
+const tags = ['行為日・排卵日から計算', 'フライングOK日', '確実判定日', '無料'];
+const tagColors = ['#e88fa8', '#e8963a', '#7aba8a', '#9b7ec8'];
+const startX = 600 - (tags.length * 170) / 2 + 75;
+tags.forEach((tag, i) => {
+  const x = startX + i * 185;
+  ctx.fillStyle = tagColors[i];
+  ctx.beginPath();
+  ctx.roundRect(x - 80, 438, 168, 48, 24);
+  ctx.fill();
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 21px "Hiragino Kaku Gothic ProN", sans-serif';
+  ctx.fillText(tag, x + 4, 468);
+});
+
+ctx.fillStyle = '#7a6a7a';
+ctx.font = '24px "Hiragino Kaku Gothic ProN", sans-serif';
+ctx.fillText('kentai-timing.vercel.app', 600, 572);
+
+const a = document.createElement('a');
+a.download = 'ogp.png';
+a.href = c.toDataURL('image/png');
+a.click();
+</script>
+</body>
+</html>
