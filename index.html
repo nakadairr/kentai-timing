@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>妊娠検査薬タイミング判定｜フライング検査はいつからOK？</title>
+  <meta name="description" content="最終行為日または排卵日を入力するだけで、妊娠検査薬が使えるタイミングを自動判定。フライング検査OK日・確実な判定日・生理予定日を一覧で表示します。">
+  <link rel="canonical" href="https://kentai-timing.vercel.app/">
+  <meta property="og:title" content="妊娠検査薬タイミング判定｜フライング検査はいつからOK？">
+  <meta property="og:description" content="行為日・排卵日を入力するだけで検査薬を使えるタイミングを判定。フライングOK日・確実判定日を表示。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://kentai-timing.vercel.app/">
+  <meta property="og:image" content="https://kentai-timing.vercel.app/ogp.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- Google tag -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3985655020038392" crossorigin="anonymous"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "妊娠検査薬タイミング判定ツール",
+    "description": "行為日・排卵日から検査薬を使えるタイミングを判定する無料ツール",
+    "url": "https://kentai-timing.vercel.app/",
+    "applicationCategory": "HealthApplication",
+    "offers": { "@type": "Offer", "price": "0" }
+  }
+  </script>
+  <style>
+    :root {
+      --pink: #e88fa8; --pink-light: #fde8ef;
+      --purple: #9b7ec8; --purple-light: #f0ebf9;
+      --green: #7aba8a; --green-light: #eaf6ed;
+      --orange: #e8963a; --orange-light: #fdf0e0;
+      --text: #3d2b3d; --text-light: #7a6a7a;
+      --bg: #fff9fb; --white: #ffffff;
+      --radius: 16px; --shadow: 0 4px 20px rgba(155,126,200,0.12);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: 'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif; line-height: 1.7; }
+    a { color: var(--purple); text-decoration: none; }
+
+    header { background: linear-gradient(135deg, var(--pink) 0%, var(--purple) 100%); color: #fff; padding: 32px 20px 28px; text-align: center; }
+    header h1 { font-size: clamp(1.3rem, 4vw, 2rem); font-weight: 800; line-height: 1.3; }
+    header p { margin-top: 8px; opacity: .92; font-size: .95rem; }
+
+    main { max-width: 660px; margin: 0 auto; padding: 24px 16px 48px; }
+
+    .card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; margin-bottom: 20px; }
+    .card h2 { font-size: 1.1rem; color: var(--purple); margin-bottom: 16px; }
+
+    label { display: block; font-size: .9rem; font-weight: 600; margin-bottom: 6px; }
+    input[type="date"] { width: 100%; padding: 12px 14px; border: 2px solid #e8d8f0; border-radius: 10px; font-size: 1rem; background: var(--bg); color: var(--text); outline: none; transition: border-color .2s; }
+    input[type="date"]:focus { border-color: var(--purple); }
+    .form-hint { font-size: .8rem; color: var(--text-light); margin-top: 4px; }
+
+    .method-tabs { display: flex; gap: 8px; margin-bottom: 18px; }
+    .method-tab { flex: 1; padding: 10px; border: 2px solid #e8d8f0; border-radius: 10px; background: var(--bg); font-size: .88rem; font-weight: 600; cursor: pointer; text-align: center; transition: all .2s; color: var(--text-light); }
+    .method-tab.active { background: var(--purple); border-color: var(--purple); color: #fff; }
+
+    .calc-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, var(--pink), var(--purple)); color: #fff; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 800; cursor: pointer; box-shadow: 0 6px 20px rgba(155,126,200,.4); transition: transform .2s; }
+    .calc-btn:hover { transform: translateY(-2px); }
+
+    /* ── Result ── */
+    #result { display: none; }
+
+    .timeline-wrap { margin: 8px 0 20px; }
+    .timeline-track { position: relative; height: 8px; border-radius: 50px; background: linear-gradient(to right, #eee 0%, var(--purple-light) 40%, var(--purple) 60%, var(--pink) 80%, #eee 100%); margin: 40px 0 56px; }
+    .tl-dot { position: absolute; top: 50%; transform: translate(-50%, -50%); width: 18px; height: 18px; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,.2); }
+    .tl-label { position: absolute; top: 18px; transform: translateX(-50%); font-size: .72rem; font-weight: 700; white-space: nowrap; color: var(--text); text-align: center; line-height: 1.3; }
+    .tl-label-top { position: absolute; bottom: 18px; transform: translateX(-50%); font-size: .72rem; font-weight: 700; white-space: nowrap; color: var(--text); text-align: center; line-height: 1.3; }
+
+    .date-cards { display: grid; gap: 12px; margin-bottom: 20px; }
+    .date-card { border-radius: 14px; padding: 18px 20px; display: flex; align-items: center; gap: 16px; }
+    .date-card.today  { background: var(--purple-light); border: 2px solid var(--purple); }
+    .date-card.flying { background: var(--orange-light); border: 2px solid var(--orange); }
+    .date-card.sure   { background: var(--pink-light); border: 2px solid var(--pink); }
+    .date-card.period { background: var(--green-light); border: 2px solid var(--green); }
+    .date-card .dc-icon { font-size: 2rem; flex-shrink: 0; }
+    .date-card .dc-body {}
+    .date-card .dc-title { font-size: .8rem; font-weight: 700; color: var(--text-light); }
+    .date-card .dc-date  { font-size: 1.3rem; font-weight: 900; }
+    .date-card .dc-note  { font-size: .82rem; color: var(--text-light); margin-top: 2px; }
+    .date-card.today  .dc-date { color: var(--purple); }
+    .date-card.flying .dc-date { color: var(--orange); }
+    .date-card.sure   .dc-date { color: var(--pink); }
+    .date-card.period .dc-date { color: var(--green); }
+
+    .countdown { background: linear-gradient(135deg, var(--pink-light), var(--purple-light)); border-radius: var(--radius); padding: 20px 24px; text-align: center; margin-bottom: 20px; }
+    .countdown .cd-label { font-size: .9rem; color: var(--text-light); }
+    .countdown .cd-num { font-size: clamp(2.5rem,10vw,4rem); font-weight: 900; color: var(--purple); line-height: 1; margin: 4px 0; }
+    .countdown .cd-sub { font-size: .85rem; color: var(--text-light); }
+
+    .tips-box { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; margin-bottom: 20px; }
+    .tips-box h3 { font-size: 1rem; color: var(--purple); margin-bottom: 12px; }
+    .tip-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; font-size: .88rem; }
+    .tip-item .tip-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+
+    .banner-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(190px,1fr)); gap: 12px; margin: 20px 0; }
+    .banner-card { background: var(--white); border-radius: 12px; box-shadow: var(--shadow); padding: 14px 16px; border-top: 3px solid var(--pink); display: block; transition: transform .2s; }
+    .banner-card:hover { transform: translateY(-2px); }
+    .banner-card .icon { font-size: 1.5rem; }
+    .banner-card .title { font-size: .88rem; font-weight: 700; color: var(--text); margin-top: 4px; }
+    .banner-card .desc  { font-size: .78rem; color: var(--text-light); margin-top: 2px; }
+
+    .ad-slot { background: #f5f5f5; border-radius: 8px; padding: 8px; text-align: center; margin: 20px 0; min-height: 90px; }
+
+    footer { background: var(--purple-light); padding: 24px 16px; text-align: center; font-size: .78rem; color: var(--text-light); }
+    footer .disclaimer { background: var(--white); border-radius: 8px; padding: 12px 16px; margin-bottom: 12px; line-height: 1.6; }
+    footer a { color: var(--purple); }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🔬 妊娠検査薬タイミング判定</h1>
+  <p>フライング検査はいつからOK？確実な判定日を自動計算</p>
+</header>
+
+<main>
+
+  <div class="ad-slot">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3985655020038392" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <div class="card">
+    <h2>📅 入力方法を選択</h2>
+    <div class="method-tabs">
+      <div class="method-tab active" id="tab-act" onclick="switchTab('act')">最終行為日から</div>
+      <div class="method-tab" id="tab-ov" onclick="switchTab('ov')">排卵日から</div>
+      <div class="method-tab" id="tab-period" onclick="switchTab('period')">生理予定日から</div>
+    </div>
+
+    <div id="panel-act">
+      <label>最終行為日</label>
+      <input type="date" id="act-date">
+      <p class="form-hint">タイミングをとった最後の日付を入力してください</p>
+    </div>
+    <div id="panel-ov" style="display:none">
+      <label>排卵日（推定）</label>
+      <input type="date" id="ov-date">
+      <p class="form-hint">排卵検査薬・基礎体温などで推測した日付</p>
+    </div>
+    <div id="panel-period" style="display:none">
+      <label>次の生理予定日</label>
+      <input type="date" id="period-date">
+      <p class="form-hint">いつも何日周期か確認して入力してください</p>
+    </div>
+  </div>
+
+  <button class="calc-btn" onclick="calculate()">🔬 検査できる日を確認する</button>
+
+  <div class="ad-slot" style="margin-top:20px;">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3985655020038392" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <div id="result">
+
+    <!-- カウントダウン -->
+    <div class="countdown" id="countdown-box">
+      <div class="cd-label" id="cd-label"></div>
+      <div class="cd-num" id="cd-num"></div>
+      <div class="cd-sub" id="cd-sub"></div>
+    </div>
+
+    <!-- タイムライン -->
+    <div class="card">
+      <h2>📊 タイムライン</h2>
+      <div class="timeline-wrap">
+        <div class="timeline-track" id="tl-track"></div>
+      </div>
+    </div>
+
+    <!-- 日付カード -->
+    <div class="date-cards" id="date-cards"></div>
+
+    <div class="ad-slot">
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3985655020038392" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <!-- Tips -->
+    <div class="tips-box">
+      <h3>💡 正確に使うためのコツ</h3>
+      <div class="tip-item"><span class="tip-icon">🌅</span><span><strong>朝一番の尿</strong>で検査するのが最も正確。hCGが最も濃縮されています。</span></div>
+      <div class="tip-item"><span class="tip-icon">💧</span><span>直前に水をたくさん飲むと<strong>hCGが薄まり</strong>、陰性になりやすいので注意。</span></div>
+      <div class="tip-item"><span class="tip-icon">🧪</span><span><strong>薄い線でも陽性</strong>です。判定時間（3〜5分）内に確認しましょう。</span></div>
+      <div class="tip-item"><span class="tip-icon">📅</span><span>フライング検査で陰性でも、<strong>生理予定日翌日に再検査</strong>すると確実。</span></div>
+      <div class="tip-item"><span class="tip-icon">🏥</span><span>陽性が出たら<strong>妊娠5〜6週を目安に産婦人科</strong>を受診しましょう。</span></div>
+    </div>
+
+    <div class="ad-slot">
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3985655020038392" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+  </div>
+
+  <!-- 関連ツール -->
+  <div style="margin-top:28px;">
+    <div style="font-size:1rem;font-weight:700;color:var(--purple);margin-bottom:12px;">🔗 関連ツール</div>
+    <div class="banner-grid">
+      <a class="banner-card" href="https://ninshin-kakuritsu.vercel.app/">
+        <div class="icon">🌸</div>
+        <div class="title">妊娠確率計算ツール</div>
+        <div class="desc">タイミング×年齢で確率を診断</div>
+      </a>
+      <a class="banner-card" href="https://hairan-keisan.vercel.app/">
+        <div class="icon">📆</div>
+        <div class="title">排卵日計算ツール</div>
+        <div class="desc">排卵日・妊娠可能期間を計算</div>
+      </a>
+      <a class="banner-card" href="https://ninsin-keisan.vercel.app/">
+        <div class="icon">📅</div>
+        <div class="title">妊娠週数・出産予定日</div>
+        <div class="desc">陽性後すぐに週数と予定日を確認</div>
+      </a>
+      <a class="banner-card" href="https://ninpu-shokuhin-check.vercel.app/">
+        <div class="icon">🥗</div>
+        <div class="title">妊婦の食べ物OK・NG</div>
+        <div class="desc">食材の安全性をすぐ確認</div>
+      </a>
+      <a class="banner-card" href="https://ninpu-ng-check.vercel.app/">
+        <div class="icon">🚫</div>
+        <div class="title">妊婦のNG行動チェック</div>
+        <div class="desc">妊娠中に避けるべき行動を確認</div>
+      </a>
+      <a class="banner-card" href="https://shussan-check.vercel.app/">
+        <div class="icon">✅</div>
+        <div class="title">出産準備チェックリスト</div>
+        <div class="desc">入院・準備グッズを確認</div>
+      </a>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="disclaimer">
+    ※ 本ツールの判定結果は目安であり、医学的な診断ではありません。<br>
+    体調や結果に不安がある場合は、必ず医師・助産師にご相談ください。<br>
+    参考：<a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kodomo/kodomo_kosodate/boshi-hoken/" target="_blank" rel="noopener">厚生労働省 母子保健</a>
+    ／<a href="https://www.jsog.or.jp/" target="_blank" rel="noopener">日本産科婦人科学会</a>
+  </div>
+  <p>© 2026 妊娠検査薬タイミング判定ツール</p>
+</footer>
+
+<script>
+function switchTab(t) {
+  ['act','ov','period'].forEach(x => {
+    document.getElementById('tab-'+x).classList.toggle('active', x===t);
+    document.getElementById('panel-'+x).style.display = x===t ? '' : 'none';
+  });
+}
+
+function addDays(date, n) {
+  const d = new Date(date);
+  d.setDate(d.getDate() + n);
+  return d;
+}
+
+function fmtDate(d) {
+  return `${d.getMonth()+1}月${d.getDate()}日（${'日月火水木金土'[d.getDay()]}）`;
+}
+
+function fmtFull(d) {
+  return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+}
+
+function daysDiff(a, b) {
+  return Math.round((b - a) / 86400000);
+}
+
+function calculate() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  let ovDate;
+
+  const tab = document.querySelector('.method-tab.active').id;
+  if (tab === 'tab-act') {
+    const v = document.getElementById('act-date').value;
+    if (!v) { alert('最終行為日を入力してください'); return; }
+    // 行為日から排卵日推定：行為日+1〜2日が排卵日の可能性あり → 中間で+1
+    ovDate = addDays(new Date(v), 1);
+  } else if (tab === 'tab-ov') {
+    const v = document.getElementById('ov-date').value;
+    if (!v) { alert('排卵日を入力してください'); return; }
+    ovDate = new Date(v);
+  } else {
+    const v = document.getElementById('period-date').value;
+    if (!v) { alert('生理予定日を入力してください'); return; }
+    // 生理予定日から逆算：排卵日 ≒ 生理予定日-14日
+    ovDate = addDays(new Date(v), -14);
+  }
+  ovDate.setHours(0,0,0,0);
+
+  // 着床：排卵後6〜12日 → 平均9日
+  const implantDate = addDays(ovDate, 9);
+  // 生理予定日：排卵日+14日
+  const periodDate = addDays(ovDate, 14);
+  // フライングOK：生理予定日-7日（早期検査薬）
+  const flyingDate = addDays(periodDate, -7);
+  // 確実判定：生理予定日翌日
+  const sureDate = addDays(periodDate, 1);
+
+  // カウントダウン
+  const cdBox = document.getElementById('countdown-box');
+  const cdLabel = document.getElementById('cd-label');
+  const cdNum = document.getElementById('cd-num');
+  const cdSub = document.getElementById('cd-sub');
+
+  const daysToFlying = daysDiff(today, flyingDate);
+  const daysToSure = daysDiff(today, sureDate);
+
+  if (daysToSure < 0) {
+    cdLabel.textContent = '確実な判定日をすでに過ぎています';
+    cdNum.textContent = '今すぐ';
+    cdSub.textContent = '検査薬を使って確認しましょう';
+  } else if (daysToFlying <= 0) {
+    cdLabel.textContent = 'フライング検査が可能です！';
+    cdNum.textContent = '今すぐOK';
+    cdSub.textContent = `確実な判定日まであと ${daysToSure} 日`;
+  } else {
+    cdLabel.textContent = 'フライング検査（早期）まで';
+    cdNum.textContent = `あと ${daysToFlying} 日`;
+    cdSub.textContent = `確実な判定日まであと ${daysToSure} 日`;
+  }
+
+  // タイムライン
+  const track = document.getElementById('tl-track');
+  track.innerHTML = '';
+  const points = [
+    { date: ovDate,      label: '排卵日',     colorVar: '--purple',  pos: 20, top: true },
+    { date: implantDate, label: '着床ごろ',   colorVar: '--orange',  pos: 45, top: false },
+    { date: flyingDate,  label: 'フライングOK', colorVar: '--orange', pos: 65, top: true },
+    { date: periodDate,  label: '生理予定日', colorVar: '--pink',    pos: 80, top: false },
+    { date: sureDate,    label: '確実判定日', colorVar: '--green',   pos: 95, top: true },
+  ];
+  points.forEach(p => {
+    const dot = document.createElement('div');
+    dot.className = 'tl-dot';
+    dot.style.cssText = `left:${p.pos}%; background:var(${p.colorVar});`;
+    track.appendChild(dot);
+    const lbl = document.createElement('div');
+    lbl.className = p.top ? 'tl-label-top' : 'tl-label';
+    lbl.style.left = p.pos + '%';
+    lbl.innerHTML = `<span style="color:var(${p.colorVar})">${p.label}</span><br>${fmtDate(p.date)}`;
+    track.appendChild(lbl);
+  });
+
+  // 日付カード
+  document.getElementById('date-cards').innerHTML = `
+    <div class="date-card flying">
+      <div class="dc-icon">🧪</div>
+      <div class="dc-body">
+        <div class="dc-title">フライング検査OK日（早期妊娠検査薬）</div>
+        <div class="dc-date">${fmtFull(flyingDate)}</div>
+        <div class="dc-note">生理予定日の約7日前から。感度の高い早期検査薬を使用。精度は70〜80%程度。</div>
+      </div>
+    </div>
+    <div class="date-card sure">
+      <div class="dc-icon">✅</div>
+      <div class="dc-body">
+        <div class="dc-title">確実な判定日（一般検査薬）</div>
+        <div class="dc-date">${fmtFull(sureDate)}</div>
+        <div class="dc-note">生理予定日の翌日以降。市販の一般的な検査薬で約99%の精度。最もおすすめ。</div>
+      </div>
+    </div>
+    <div class="date-card period">
+      <div class="dc-icon">📅</div>
+      <div class="dc-body">
+        <div class="dc-title">生理予定日</div>
+        <div class="dc-date">${fmtFull(periodDate)}</div>
+        <div class="dc-note">この日に生理が来なければ妊娠の可能性があります。</div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('result').style.display = '';
+  document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+</script>
+</body>
+</html>
