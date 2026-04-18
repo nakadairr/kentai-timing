@@ -38,14 +38,14 @@ ctx.fillStyle = '#9b7ec8';
 ctx.font = 'bold 32px "Hiragino Kaku Gothic ProN", sans-serif';
 ctx.fillText('フライング検査はいつからOK？確実な判定日を自動計算', 600, 385);
 
-const tags = ['行為日・排卵日から計算', 'フライングOK日', '確実判定日', '無料'];
+const tags = ['行為日から計算', 'フライングOK日', '確実判定日', '無料'];
 const tagColors = ['#e88fa8', '#e8963a', '#7aba8a', '#9b7ec8'];
-const startX = 600 - (tags.length * 170) / 2 + 75;
+const startX = 600 - (tags.length * 165) / 2 + 72;
 tags.forEach((tag, i) => {
-  const x = startX + i * 185;
+  const x = startX + i * 175;
   ctx.fillStyle = tagColors[i];
   ctx.beginPath();
-  ctx.roundRect(x - 80, 438, 168, 48, 24);
+  ctx.roundRect(x - 70, 438, 148, 48, 24);
   ctx.fill();
   ctx.fillStyle = '#fff';
   ctx.font = 'bold 21px "Hiragino Kaku Gothic ProN", sans-serif';
